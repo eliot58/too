@@ -8,10 +8,10 @@ schema_view = get_schema_view(
    openapi.Info(
       title="Too API",
       default_version='v1',
-      description="Test description",
+      description="",
       terms_of_service="",
       contact=openapi.Contact(email=""),
-      license=openapi.License(name="BSD License"),
+      license=openapi.License(name=""),
    ),
    public=True,
    permission_classes=[permissions.AllowAny],
