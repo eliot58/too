@@ -1,44 +1,52 @@
 from django.contrib import admin
 from .models import *
-from modeltranslation.admin import TranslationAdmin
 
 @admin.register(Ads)
-class AdsAdmin(TranslationAdmin):
+class AdsAdmin(admin.ModelAdmin):
     list_display = ['title', 'text']
 
 
 @admin.register(Information)
-class InformationAdmin(TranslationAdmin):
+class InformationAdmin(admin.ModelAdmin):
     list_display = ['text']
 
 @admin.register(Resolve)
-class ResolveAdmin(TranslationAdmin):
+class ResolveAdmin(admin.ModelAdmin):
     list_display = ['title'] 
 
 
 @admin.register(Gallery)
-class GalleryAdmin(TranslationAdmin):
+class GalleryAdmin(admin.ModelAdmin):
     list_display = ['description']
 
 
 @admin.register(Address)
-class AddressAdmin(TranslationAdmin):
+class AddressAdmin(admin.ModelAdmin):
     list_display = ['description']
 
 
-@admin.register(Agriculture)
-class AgricultureAdmin(TranslationAdmin):
-    list_display = ['description'] 
+class AgriCulturePhotoAdmin(admin.StackedInline):
+    model = AgriCulturePhoto
 
+@admin.register(Agriculture)
+class AgricultureAdmin(admin.ModelAdmin):
+    inlines = [AgriCulturePhotoAdmin]
+    list_display = ['description']
+
+
+
+class CulturePhotoAdmin(admin.StackedInline):
+    model = CulturePhoto
 
 @admin.register(Culture)
-class CultureAdmin(TranslationAdmin):
+class CultureAdmin(admin.ModelAdmin):
+    inlines = [CulturePhotoAdmin]
     list_display = ['description'] 
-
+    
 
 
 @admin.register(News)
-class PostAdmin(TranslationAdmin):
+class PostAdmin(admin.ModelAdmin):
     list_display = ['title']
 
 @admin.register(Comment)

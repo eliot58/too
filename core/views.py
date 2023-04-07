@@ -4,97 +4,104 @@ from .serializers import *
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework.response import Response
-from django.conf import settings
 from django.db.models import Q
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.status import (
+    HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
+    HTTP_200_OK,
+    HTTP_201_CREATED,
+    HTTP_403_FORBIDDEN
+)
+
+class CustomPagination(PageNumberPagination):
+    page_size = 4
+    page_size_query_param = "page_size"
+    max_page_size = 10
+
+class CultureClass:
+
+    def __init__(self, description, images):
+        self.description = description
+        self.images = images
 
 class AdsView(generics.ListAPIView):
     serializer_class = AdsSerializer
-    @swagger_auto_schema(manual_parameters=[openapi.Parameter('id', openapi.IN_QUERY, description="post id", type=openapi.TYPE_INTEGER, required=False)])
-    def get(self, request, **kwargs):
-        settings.LANGUAGE_CODE = kwargs["lang"]
-        id = request.query_params.get('id')
+    pagination_class = CustomPagination
+
+    def get_queryset(self, *args, **kwargs):
+        id = self.request.query_params.get('id')
         if id is not None:
-            serializer = AdsSerializer(Ads.objects.get(id=id))
+            data = Ads.objects.filter(id=id)
         else:
-            serializer = AdsSerializer(Ads.objects.all(), many=True)
-        return Response(serializer.data)
+            data = Ads.objects.all()
+        return data
 
 
 class InformationView(generics.ListAPIView):
     serializer_class = InformationSerializer
-    @swagger_auto_schema(manual_parameters=[openapi.Parameter('id', openapi.IN_QUERY, description="post id", type=openapi.TYPE_INTEGER, required=False)])
-    def get(self, request, **kwargs):
-        settings.LANGUAGE_CODE = kwargs["lang"]
-        id = request.query_params.get('id')
+    pagination_class = CustomPagination
+
+    def get_queryset(self, *args, **kwargs):
+        id = self.request.query_params.get('id')
         if id is not None:
-            serializer = InformationSerializer(Information.objects.get(id=id))
+            data = Information.objects.filter(id=id)
         else:
-            serializer = InformationSerializer(Information.objects.all(), many=True)
-        return Response(serializer.data)
+            data = Information.objects.all()
+        return data
     
 
 class ResolveView(generics.ListAPIView):
     serializer_class = ResolveSerializer
-
-    @swagger_auto_schema(manual_parameters=[openapi.Parameter('id', openapi.IN_QUERY, description="post id", type=openapi.TYPE_INTEGER, required=False)])
-    def get(self, request, **kwargs):
-        settings.LANGUAGE_CODE = kwargs["lang"]
-        id = request.query_params.get('id')
+    def get_queryset(self, *args, **kwargs):
+        id = self.request.query_params.get('id')
         if id is not None:
-            serializer = ResolveSerializer(Resolve.objects.get(id=id))
+            data = Resolve.objects.filter(id=id)
         else:
-            serializer = ResolveSerializer(Resolve.objects.all(), many=True)
-        return Response(serializer.data)
+            data = Resolve.objects.all()
+        return data
     
 class GalleryView(generics.ListAPIView):
     serializer_class = GallerySerializer
+    pagination_class = CustomPagination
 
-    @swagger_auto_schema(manual_parameters=[openapi.Parameter('id', openapi.IN_QUERY, description="post id", type=openapi.TYPE_INTEGER, required=False)])
-    def get(self, request, **kwargs):
-        settings.LANGUAGE_CODE = kwargs["lang"]
-        id = request.query_params.get('id')
+    def get_queryset(self, *args, **kwargs):
+        id = self.request.query_params.get('id')
         if id is not None:
-            serializer = GallerySerializer(Gallery.objects.get(id=id))
+            data = Gallery.objects.filter(id=id)
         else:
-            serializer = GallerySerializer(Gallery.objects.all(), many=True)
-        return Response(serializer.data)
+            data = Gallery.objects.all()
+        return data
 
 class AddressView(generics.ListAPIView):
     serializer_class = AddressSerializer
-
     def get(self, request, **kwargs):
-        settings.LANGUAGE_CODE = kwargs["lang"]
         serializer = AddressSerializer(Address.objects.get(id=1))
         return Response(serializer.data)
     
 
-class AgricultureView(generics.ListAPIView):
-    serializer_class = AgricultureSerializer
-
-    def get(self, request, **kwargs):
-        settings.LANGUAGE_CODE = kwargs["lang"]
-        serializer = AgricultureSerializer(Agriculture.objects.get(id=1))
+class AgricultureView(views.APIView):
+    def get(self, request):
+        serializer = AgricultureSerializer(CultureClass(description = Agriculture.objects.get(id=1).description, images=AgriCulturePhoto.objects.all()))
         return Response(serializer.data)
+
     
-class CultureView(generics.ListAPIView):
-    serializer_class = CultureSerializer
-
-    def get(self, request, **kwargs):
-        settings.LANGUAGE_CODE = kwargs["lang"]
-        serializer = CultureSerializer
+class CultureView(views.APIView):
+    def get(self, request):
+        serializer = CultureSerializer(CultureClass(description = Culture.objects.get(id=1).description, images=CulturePhoto.objects.all()))
         return Response(serializer.data)
 
+class NewsView(generics.ListAPIView):
+    serializer_class = NewsSerializer
+    pagination_class = CustomPagination
 
-class NewsView(views.APIView):
-    @swagger_auto_schema(manual_parameters=[openapi.Parameter('id', openapi.IN_QUERY, description="post id", type=openapi.TYPE_INTEGER, required=False)])
-    def get(self, request, **kwargs):
-        settings.LANGUAGE_CODE = kwargs["lang"]
-        id = request.query_params.get('id')
+    def get_queryset(self, *args, **kwargs):
+        id = self.request.query_params.get('id')
         if id is not None:
-            serializer = NewsSerializer(News.objects.get(id=id))
+            data = News.objects.filter(id=id)
         else:
-            serializer = NewsSerializer(News.objects.all(), many=True)
-        return Response(serializer.data)
+            data = News.objects.all()
+        return data
 
 
 
@@ -103,6 +110,8 @@ class CommentView(views.APIView):
     def get(self, request):
         if 'id' in request.query_params:
             serializer = CommentSerializer(Comment.objects.filter(post_id=request.query_params['id']), many=True)
+        else:
+            return Response(status=HTTP_400_BAD_REQUEST)
         return Response(serializer.data)
     
     
@@ -118,13 +127,13 @@ class CommentView(views.APIView):
 class SearchView(views.APIView):
     def get(self, request, **kwargs):
         if kwargs["cat"] == "news":
-            serializer = NewsSerializer(News.objects.filter(Q(title__icontains=kwargs['q']) | Q(text__icontains=kwargs['q']) | Q(text_ky__icontains=kwargs['q']) | Q(title_ky__icontains=kwargs['q'])), many=True)
+            serializer = NewsSerializer(News.objects.filter(Q(title__icontains=kwargs['q']) | Q(text__icontains=kwargs['q'])), many=True)
         elif kwargs["cat"] == "ads":
-            serializer = AdsSerializer(Ads.objects.filter(Q(title__icontains=kwargs['q']) | Q(text__icontains=kwargs['q']) | Q(text_ky__icontains=kwargs['q']) | Q(title_ky__icontains=kwargs['q'])), many=True)
+            serializer = AdsSerializer(Ads.objects.filter(Q(title__icontains=kwargs['q']) | Q(text__icontains=kwargs['q'])), many=True)
         elif kwargs["cat"] == "info":
-            serializer = InformationSerializer(Information.objects.filter(Q(text__icontains=kwargs['q']) | Q(text_ky__icontains=kwargs['q'])), many=True)
+            serializer = InformationSerializer(Information.objects.filter(Q(text__icontains=kwargs['q'])), many=True)
         elif kwargs["cat"] == "resolve":
-            serializer = ResolveSerializer(Resolve.objects.filter(Q(title__icontains=kwargs['q']) | Q(title_ky__icontains=kwargs['q'])), many=True)
+            serializer = ResolveSerializer(Resolve.objects.filter(Q(title__icontains=kwargs['q'])), many=True)
         elif kwargs["cat"] == "gallery":
-            serializer = GallerySerializer(Gallery.objects.filter(Q(description__icontains=kwargs['q']) | Q(description_ky__icontains=kwargs['q'])), many=True)
+            serializer = GallerySerializer(Gallery.objects.filter(Q(description__icontains=kwargs['q'])), many=True)
         return Response(serializer.data)

@@ -43,14 +43,26 @@ class AddressSerializer(ModelSerializer):
         model = Address
         fields = ['photo', 'description']
 
+class CultureImagesSerializer(ModelSerializer):
+    class Meta:
+        model = CulturePhoto
+        fields = '__all__'
+
+
+class AgriCultureImagesSerializer(ModelSerializer):
+    class Meta:
+        model = AgriCulturePhoto
+        fields = '__all__'
 
 class CultureSerializer(ModelSerializer):
+    images = CultureImagesSerializer(many=True, read_only = True)
     class Meta:
         model = Culture
-        fields = ['photo', 'description']
+        fields = ['description', 'images']
 
 
 class AgricultureSerializer(ModelSerializer):
+    images = AgriCultureImagesSerializer(many=True, read_only = True)
     class Meta:
         model = Agriculture
-        fields = ['photo', 'description']
+        fields = ['description', 'images']

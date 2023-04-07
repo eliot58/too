@@ -11,8 +11,8 @@ class Ads(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Объявление'
-        verbose_name_plural = 'Объявления'
+        verbose_name = 'Жарыя'
+        verbose_name_plural = 'Жарыялар'
 
 
 class Information(models.Model):
@@ -24,8 +24,8 @@ class Information(models.Model):
         return str(self.id)
 
     class Meta:
-        verbose_name = 'Информация'
-        verbose_name_plural = 'Информации'
+        verbose_name = 'Малымат'
+        verbose_name_plural = 'Малыматтар'
 
 
 
@@ -35,8 +35,8 @@ class Resolve(models.Model):
     file = models.FileField(upload_to="resolve",verbose_name='Документ')
 
     class Meta:
-        verbose_name = 'Решение'
-        verbose_name_plural = 'Решения'
+        verbose_name = 'Токтом'
+        verbose_name_plural = 'Токтомдор'
 
 
 
@@ -59,8 +59,8 @@ class News(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Новость'
-        verbose_name_plural = 'Новости'
+        verbose_name = 'Жанылык'
+        verbose_name_plural = 'Жанылыктар'
 
 class Comment(models.Model):
     post = models.ForeignKey(News, on_delete=models.CASCADE, verbose_name='Новость')
@@ -80,24 +80,34 @@ class Address(models.Model):
     description = models.TextField(verbose_name='Описание')
 
     class Meta:
-        verbose_name = 'Адрес'
-        verbose_name_plural = 'Адрес'
+        verbose_name = 'Дарег'
+        verbose_name_plural = 'Дарег'
 
 
 
 class Agriculture(models.Model):
-    photo = models.FileField(upload_to='culture', verbose_name='Фото')
     description = models.TextField(verbose_name='Описание')
 
+
     class Meta:
-        verbose_name = 'Сельское хозяйство'
-        verbose_name_plural = 'Сельское хозяйство'
+        verbose_name = 'Айыл чарбасы'
+        verbose_name_plural = 'Айыл чарбасы'
+    
+
+class AgriCulturePhoto(models.Model):
+    culture = models.ForeignKey(Agriculture, on_delete=models.CASCADE)
+    file = models.FileField(upload_to="culture")
 
 
 class Culture(models.Model):
-    photo = models.FileField(upload_to='culture', verbose_name='Фото')
     description = models.TextField(verbose_name='Описание')
 
     class Meta:
-        verbose_name = 'Культура'
-        verbose_name_plural = 'Культура'
+        verbose_name = 'Маданият'
+        verbose_name_plural = 'Маданият'
+
+
+
+class CulturePhoto(models.Model):
+    culture = models.ForeignKey(Culture, on_delete=models.CASCADE)
+    file = models.FileField(upload_to="culture")
