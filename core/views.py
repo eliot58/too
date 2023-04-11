@@ -80,6 +80,13 @@ class AddressView(generics.ListAPIView):
         return Response(serializer.data)
     
 
+class CommonInfoView(generics.ListAPIView):
+    serializer_class = CommonInfoSerializer
+    def get(self, request, **kwargs):
+        serializer = CommonInfoSerializer(CommonInfo.objects.get(id=1))
+        return Response(serializer.data)
+    
+
 class AgricultureView(views.APIView):
     def get(self, request):
         serializer = AgricultureSerializer(CultureClass(description = Agriculture.objects.get(id=1).description, images=AgriCulturePhoto.objects.all()))

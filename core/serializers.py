@@ -10,7 +10,7 @@ class AdsSerializer(ModelSerializer):
 class InformationSerializer(ModelSerializer):
     class Meta:
         model = Information
-        fields = ['img', 'text']
+        fields = ['title','img', 'text']
 
 
 class ResolveSerializer(ModelSerializer):
@@ -66,3 +66,9 @@ class AgricultureSerializer(ModelSerializer):
     class Meta:
         model = Agriculture
         fields = ['description', 'images']
+
+
+class CommonInfoSerializer(ModelSerializer):
+    class Meta:
+        model = CommonInfo
+        fields = '__all__'

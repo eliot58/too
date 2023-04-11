@@ -16,6 +16,7 @@ class Ads(models.Model):
 
 
 class Information(models.Model):
+    title = models.CharField(max_length=256, verbose_name='Заголовок')
     img = models.FileField(upload_to="info", verbose_name='Фото')
     text = models.TextField(verbose_name='Текст')
 
@@ -24,8 +25,8 @@ class Information(models.Model):
         return str(self.id)
 
     class Meta:
-        verbose_name = 'Малымат'
-        verbose_name_plural = 'Малыматтар'
+        verbose_name = 'Маалымат'
+        verbose_name_plural = 'Маалыматтар'
 
 
 
@@ -79,6 +80,11 @@ class Address(models.Model):
     photo = models.FileField(upload_to='address', verbose_name='Фото')
     description = models.TextField(verbose_name='Описание')
 
+    def save(self, *args, **kwargs):
+        if len(Address.objects.all()) != 0:
+            return
+        return super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = 'Дарег'
         verbose_name_plural = 'Дарег'
@@ -111,3 +117,35 @@ class Culture(models.Model):
 class CulturePhoto(models.Model):
     culture = models.ForeignKey(Culture, on_delete=models.CASCADE)
     file = models.FileField(upload_to="culture")
+
+
+
+class CommonInfo(models.Model):
+    territory = models.PositiveIntegerField(verbose_name="Жалпы территориясы")
+    number_of_villages = models.PositiveIntegerField(verbose_name="Айылдардын саны")
+    number_of_smokes = models.PositiveIntegerField(verbose_name="Түтүндөрдүн саны")
+    avg_learn = models.PositiveIntegerField(verbose_name="Атайын орто билим  берүү")
+    licey = models.PositiveIntegerField(verbose_name="Лицей")
+    teacher_number = models.PositiveIntegerField(verbose_name="Мугалимдердин саны")
+    students_number = models.PositiveIntegerField(verbose_name="Тарбиялануучу балдардын саны")
+    ogan = models.PositiveIntegerField(verbose_name="Ооган согушунун ардагерлери")
+    chernobyl = models.PositiveIntegerField(verbose_name="Чернобыль кырсыгына катышкандар")
+    hospital = models.PositiveIntegerField(verbose_name="Ооруканалар")
+    family_medicine = models.PositiveIntegerField(verbose_name="Үй-бүлөлүк дарыгерлер")
+    fap = models.PositiveIntegerField(verbose_name="ФАП")
+    apteka = models.PositiveIntegerField(verbose_name="Аптекалар")
+    railroad = models.PositiveIntegerField(verbose_name="Жакынкы темир жол")
+    airport = models.PositiveIntegerField(verbose_name="Жакынкы аэропорт")
+    district = models.PositiveIntegerField(verbose_name="Райондун борборуна чейинки аралык")
+    region = models.PositiveIntegerField(verbose_name="Облустун борборуна чейинки аралык")
+    sea = models.PositiveIntegerField(verbose_name="Дениз деңгээлинен бийиктиги")
+
+    def save(self, *args, **kwargs):
+        if len(CommonInfo.objects.all()) != 0:
+            return
+        return super().save(*args, **kwargs)
+
+
+    class Meta:
+        verbose_name = 'Жалпы малыматтар'
+        verbose_name_plural = 'Жалпы малыматтар'

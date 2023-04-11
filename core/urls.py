@@ -12,4 +12,5 @@ urlpatterns = [
     path('address/', AddressView.as_view()),
     path('agriculture/', AgricultureView.as_view()),
     path('culture/', CultureView.as_view()),
+    path('common-info/', CommonInfoView.as_view()),
 ]
