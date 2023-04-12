@@ -20,9 +20,15 @@ class Information(models.Model):
     img = models.FileField(upload_to="info", verbose_name='Фото')
     text = models.TextField(verbose_name='Текст')
 
+    bottom_title = models.CharField(max_length=256, verbose_name='Нижний заголовок')
+    bottom_text = models.TextField(verbose_name='Нижний текст')
+    img_1 = models.FileField(upload_to="info")
+    img_2 = models.FileField(upload_to="info")
+    img_3 = models.FileField(upload_to="info")
+
 
     def __str__(self) -> str:
-        return str(self.id)
+        return self.title
 
     class Meta:
         verbose_name = 'Маалымат'

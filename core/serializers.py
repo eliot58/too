@@ -10,7 +10,7 @@ class AdsSerializer(ModelSerializer):
 class InformationSerializer(ModelSerializer):
     class Meta:
         model = Information
-        fields = ['title','img', 'text']
+        fields = ['title','img', 'text', 'bottom_title', 'bottom_text', 'img_1', 'img_2', 'img_3']
 
 
 class ResolveSerializer(ModelSerializer):
