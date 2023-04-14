@@ -49,10 +49,10 @@ class CultureImagesSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class AgriCultureImagesSerializer(ModelSerializer):
-    class Meta:
-        model = AgriCulturePhoto
-        fields = '__all__'
+# class AgriCultureImagesSerializer(ModelSerializer):
+#     class Meta:
+#         model = AgriCulturePhoto
+#         fields = '__all__'
 
 class CultureSerializer(ModelSerializer):
     images = CultureImagesSerializer(many=True, read_only = True)
@@ -61,14 +61,20 @@ class CultureSerializer(ModelSerializer):
         fields = ['description', 'images']
 
 
-class AgricultureSerializer(ModelSerializer):
-    images = AgriCultureImagesSerializer(many=True, read_only = True)
-    class Meta:
-        model = Agriculture
-        fields = ['description', 'images']
+# class AgricultureSerializer(ModelSerializer):
+#     images = AgriCultureImagesSerializer(many=True, read_only = True)
+#     class Meta:
+#         model = Agriculture
+#         fields = ['description', 'images']
 
 
 class CommonInfoSerializer(ModelSerializer):
     class Meta:
         model = CommonInfo
+        fields = '__all__'
+
+
+class FAQSerializer(ModelSerializer):
+    class Meta:
+        model = FAQ
         fields = '__all__'

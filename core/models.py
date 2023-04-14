@@ -92,23 +92,23 @@ class Address(models.Model):
         return super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name = 'Дарег'
-        verbose_name_plural = 'Дарег'
+        verbose_name = 'Дарек'
+        verbose_name_plural = 'Дарек'
 
 
 
-class Agriculture(models.Model):
-    description = models.TextField(verbose_name='Описание')
+# class Agriculture(models.Model):
+#     description = models.TextField(verbose_name='Описание')
 
 
-    class Meta:
-        verbose_name = 'Айыл чарбасы'
-        verbose_name_plural = 'Айыл чарбасы'
+#     class Meta:
+#         verbose_name = 'Айыл чарбасы'
+#         verbose_name_plural = 'Айыл чарбасы'
     
 
-class AgriCulturePhoto(models.Model):
-    culture = models.ForeignKey(Agriculture, on_delete=models.CASCADE)
-    file = models.FileField(upload_to="culture")
+# class AgriCulturePhoto(models.Model):
+#     culture = models.ForeignKey(Agriculture, on_delete=models.CASCADE)
+#     file = models.FileField(upload_to="culture")
 
 
 class Culture(models.Model):
@@ -146,6 +146,10 @@ class CommonInfo(models.Model):
     region = models.PositiveIntegerField(verbose_name="Облустун борборуна чейинки аралык")
     sea = models.PositiveIntegerField(verbose_name="Дениз деңгээлинен бийиктиги")
 
+
+    def __str__(self):
+        return 'Жалпы малыматтар'
+
     def save(self, *args, **kwargs):
         if len(CommonInfo.objects.all()) != 0:
             return
@@ -155,3 +159,14 @@ class CommonInfo(models.Model):
     class Meta:
         verbose_name = 'Жалпы малыматтар'
         verbose_name_plural = 'Жалпы малыматтар'
+
+
+
+class FAQ(models.Model):
+    question = models.CharField(max_length=256, verbose_name="суроо")
+    answer = models.CharField(max_length=256, verbose_name="жооп")
+
+
+    class Meta:
+        verbose_name = 'Көп берилүүчү суроо'
+        verbose_name_plural = 'Көп берилүүчү суроолор'

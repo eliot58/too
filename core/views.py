@@ -87,10 +87,17 @@ class CommonInfoView(generics.ListAPIView):
         return Response(serializer.data)
     
 
-class AgricultureView(views.APIView):
-    def get(self, request):
-        serializer = AgricultureSerializer(CultureClass(description = Agriculture.objects.get(id=1).description, images=AgriCulturePhoto.objects.all()))
+class FAQView(generics.ListAPIView):
+    serializer_class = FAQSerializer
+    def get(self, request, **kwargs):
+        serializer = FAQSerializer(FAQ.objects.all(), many=True)
         return Response(serializer.data)
+    
+
+# class AgricultureView(views.APIView):
+#     def get(self, request):
+#         serializer = AgricultureSerializer(CultureClass(description = Agriculture.objects.get(id=1).description, images=AgriCulturePhoto.objects.all()))
+#         return Response(serializer.data)
 
     
 class CultureView(views.APIView):

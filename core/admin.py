@@ -25,13 +25,13 @@ class AddressAdmin(admin.ModelAdmin):
     list_display = ['description']
 
 
-class AgriCulturePhotoAdmin(admin.StackedInline):
-    model = AgriCulturePhoto
+# class AgriCulturePhotoAdmin(admin.StackedInline):
+#     model = AgriCulturePhoto
 
-@admin.register(Agriculture)
-class AgricultureAdmin(admin.ModelAdmin):
-    inlines = [AgriCulturePhotoAdmin]
-    list_display = ['description']
+# @admin.register(Agriculture)
+# class AgricultureAdmin(admin.ModelAdmin):
+#     inlines = [AgriCulturePhotoAdmin]
+#     list_display = ['description']
 
 
 
@@ -52,3 +52,11 @@ class PostAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['firstName', 'lastName', 'text']
+
+
+
+admin.site.register(CommonInfo)
+
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ['question', 'answer']
