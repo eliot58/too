@@ -148,7 +148,7 @@ class CommonInfo(models.Model):
 
 
     def __str__(self):
-        return 'Жалпы малыматтар'
+        return 'Жалпы маалыматтар'
 
     def save(self, *args, **kwargs):
         if len(CommonInfo.objects.all()) != 0:
@@ -157,8 +157,8 @@ class CommonInfo(models.Model):
 
 
     class Meta:
-        verbose_name = 'Жалпы малыматтар'
-        verbose_name_plural = 'Жалпы малыматтар'
+        verbose_name = 'Жалпы маалыматтар'
+        verbose_name_plural = 'Жалпы маалыматтар'
 
 
 

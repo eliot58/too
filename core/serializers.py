@@ -4,13 +4,13 @@ from .models import *
 class AdsSerializer(ModelSerializer):
     class Meta:
         model = Ads
-        fields = ['img', 'title', 'text']
+        fields = ['id', 'img', 'title', 'text']
 
 
 class InformationSerializer(ModelSerializer):
     class Meta:
         model = Information
-        fields = ['title','img', 'text', 'bottom_title', 'bottom_text', 'img_1', 'img_2', 'img_3']
+        fields = ['id','title','img', 'text', 'bottom_title', 'bottom_text', 'img_1', 'img_2', 'img_3']
 
 
 class ResolveSerializer(ModelSerializer):
@@ -29,7 +29,7 @@ class GallerySerializer(ModelSerializer):
 class NewsSerializer(ModelSerializer):
     class Meta:
         model = News
-        fields = ['img', 'title', 'text']
+        fields = ['id','img', 'title', 'text']
 
 
 class CommentSerializer(ModelSerializer):
