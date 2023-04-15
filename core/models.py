@@ -163,8 +163,8 @@ class CommonInfo(models.Model):
 
 
 class FAQ(models.Model):
-    question = models.CharField(max_length=256, verbose_name="суроо")
-    answer = models.CharField(max_length=256, verbose_name="жооп")
+    question = models.TextField(verbose_name="суроо")
+    answer = models.TextField(verbose_name="жооп")
 
 
     class Meta:
