@@ -52,8 +52,8 @@ class Gallery(models.Model):
     description = models.TextField(verbose_name='Описание')
 
     class Meta:
-        verbose_name = 'Галлерея'
-        verbose_name_plural = 'Галлерея'
+        verbose_name = 'Галерея'
+        verbose_name_plural = 'Галерея'
 
 class News(models.Model):
     img = models.FileField(upload_to="posts/img", verbose_name='Фото')
@@ -66,8 +66,8 @@ class News(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Жанылык'
-        verbose_name_plural = 'Жанылыктар'
+        verbose_name = 'Жаңылык'
+        verbose_name_plural = 'Жаңылыктар'
 
 class Comment(models.Model):
     post = models.ForeignKey(News, on_delete=models.CASCADE, verbose_name='Новость')

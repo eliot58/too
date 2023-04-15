@@ -14,5 +14,4 @@ urlpatterns = [
     path('culture/', CultureView.as_view()),
     path('common-info/', CommonInfoView.as_view()),
     path('faq/', FAQView.as_view()),
-
 ]
