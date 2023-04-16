@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, Serializer
 from .models import *
 
 class AdsSerializer(ModelSerializer):
@@ -78,3 +78,12 @@ class FAQSerializer(ModelSerializer):
     class Meta:
         model = FAQ
         fields = '__all__'
+
+
+
+class AllSerializer(Serializer):
+    news = NewsSerializer(read_only=True,many=True)
+    ads = AdsSerializer(read_only=True,many=True)
+    info = InformationSerializer(read_only=True,many=True)
+    resolve = ResolveSerializer(read_only=True,many=True)
+    gallery = GallerySerializer(read_only=True,many=True)

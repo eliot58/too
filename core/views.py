@@ -25,6 +25,16 @@ class CultureClass:
         self.description = description
         self.images = images
 
+
+class AllClass:
+
+    def __init__(self, news, ads, info, resolve, gallery):
+        self.news = news
+        self.ads = ads
+        self.info = info
+        self.resolve = resolve
+        self.gallery = gallery
+
 class AdsView(generics.ListAPIView):
     serializer_class = AdsSerializer
     pagination_class = CustomPagination
@@ -150,4 +160,6 @@ class SearchView(views.APIView):
             serializer = ResolveSerializer(Resolve.objects.filter(Q(title__icontains=kwargs['q'])), many=True)
         elif kwargs["cat"] == "gallery":
             serializer = GallerySerializer(Gallery.objects.filter(Q(description__icontains=kwargs['q'])), many=True)
+        elif kwargs["cat"] == "all":
+            serializer = AllSerializer(AllClass(news=News.objects.filter(Q(title__icontains=kwargs['q']) | Q(text__icontains=kwargs['q'])), ads=Ads.objects.filter(Q(title__icontains=kwargs['q']) | Q(text__icontains=kwargs['q'])), info=Information.objects.filter(Q(text__icontains=kwargs['q'])), resolve=Resolve.objects.filter(Q(title__icontains=kwargs['q'])), gallery=Gallery.objects.filter(Q(description__icontains=kwargs['q']))))
         return Response(serializer.data)
