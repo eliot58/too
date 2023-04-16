@@ -17,6 +17,7 @@ class Ads(models.Model):
 
 class Information(models.Model):
     title = models.CharField(max_length=256, verbose_name='Заголовок')
+    sub_title = models.CharField(max_length=256, verbose_name='Подзаголовок')
     img = models.FileField(upload_to="info", verbose_name='Фото')
     text = models.TextField(verbose_name='Текст')
 
