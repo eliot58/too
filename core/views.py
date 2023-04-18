@@ -164,7 +164,7 @@ class SearchView(views.APIView):
             all.append({'title': resolve.title, 'file': resolve.file.url, 'type': "resolve"})
         for gallery in Gallery.objects.filter(Q(description__icontains=q)):
             all.append({'photo': gallery.photo.url, 'description': gallery.description, 'type': "gallery"})
-        return Response({'count': len(paginator.paginate_queryset(all, request)), 'result': paginator.paginate_queryset(all, request)})
+        return Response({'count': len(all), 'result': paginator.paginate_queryset(all, request)})
 
     
 
