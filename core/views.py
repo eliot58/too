@@ -149,17 +149,25 @@ class CommentView(views.APIView):
         return Response(serializer.data)
 
 class SearchView(views.APIView):
-    def get(self, request, **kwargs):
-        if kwargs["cat"] == "news":
-            serializer = NewsSerializer(News.objects.filter(Q(title__icontains=kwargs['q']) | Q(text__icontains=kwargs['q'])), many=True)
-        elif kwargs["cat"] == "ads":
-            serializer = AdsSerializer(Ads.objects.filter(Q(title__icontains=kwargs['q']) | Q(text__icontains=kwargs['q'])), many=True)
-        elif kwargs["cat"] == "info":
-            serializer = InformationSerializer(Information.objects.filter(Q(text__icontains=kwargs['q'])), many=True)
-        elif kwargs["cat"] == "resolve":
-            serializer = ResolveSerializer(Resolve.objects.filter(Q(title__icontains=kwargs['q'])), many=True)
-        elif kwargs["cat"] == "gallery":
-            serializer = GallerySerializer(Gallery.objects.filter(Q(description__icontains=kwargs['q'])), many=True)
-        elif kwargs["cat"] == "all":
-            serializer = AllSerializer(AllClass(news=News.objects.filter(Q(title__icontains=kwargs['q']) | Q(text__icontains=kwargs['q'])), ads=Ads.objects.filter(Q(title__icontains=kwargs['q']) | Q(text__icontains=kwargs['q'])), info=Information.objects.filter(Q(text__icontains=kwargs['q'])), resolve=Resolve.objects.filter(Q(title__icontains=kwargs['q'])), gallery=Gallery.objects.filter(Q(description__icontains=kwargs['q']))))
-        return Response(serializer.data)
+
+    def get(self, request):
+        q = self.request.query_params.get('q')
+        all = []
+        paginator = CustomPagination()
+        for new in News.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)):
+            all.append({'img': new.img.url, 'title': new.title, 'text': new.text, 'date': new.date, 'type': "news"})
+        for ads in Ads.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)):
+            all.append({'img': ads.img.url, 'title': ads.title, 'text': ads.text, 'type': "ads"})
+        for info in Information.objects.filter(Q(text__icontains=q)):
+            all.append({'img': info.img.url, 'title': info.title,'sub_title': info.sub_title, 'text': info.text,'bottom_title': info.bottom_title, 'bottom_text': info.bottom_text,'img_1': info.img_1.url,'img_2': info.img_2.url,'img_3': info.img_3.url, 'type': "info"})
+        for resolve in Resolve.objects.filter(Q(title__icontains=q)):
+            all.append({'title': resolve.title, 'file': resolve.file.url, 'type': "resolve"})
+        for gallery in Gallery.objects.filter(Q(description__icontains=q)):
+            all.append({'photo': gallery.photo.url, 'description': gallery.description, 'type': "gallery"})
+        return Response({'count': len(paginator.paginate_queryset(all, request)), 'result': paginator.paginate_queryset(all, request)})
+
+    
+
+
+    
+        

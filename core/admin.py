@@ -8,7 +8,7 @@ class AdsAdmin(admin.ModelAdmin):
 
 @admin.register(Information)
 class InformationAdmin(admin.ModelAdmin):
-    list_display = ['text']
+    list_display = ['title']
 
 @admin.register(Resolve)
 class ResolveAdmin(admin.ModelAdmin):

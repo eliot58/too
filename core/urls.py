@@ -8,7 +8,7 @@ urlpatterns = [
     path('information/', InformationView.as_view()),
     path('resolve/', ResolveView.as_view()),
     path('gallery/', GalleryView.as_view()),
-    path('search/<str:cat>/<str:q>/', SearchView.as_view()),
+    path('search/', SearchView.as_view()),
     path('address/', AddressView.as_view()),
     # path('agriculture/', AgricultureView.as_view()),
     path('culture/', CultureView.as_view()),
