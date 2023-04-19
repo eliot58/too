@@ -150,6 +150,7 @@ class CommentView(views.APIView):
 
 class SearchView(views.APIView):
 
+    @swagger_auto_schema(manual_parameters=[openapi.Parameter('q', openapi.IN_QUERY, description="search", type=openapi.TYPE_STRING, required=True), openapi.Parameter('page', openapi.IN_QUERY, description="page", type=openapi.TYPE_INTEGER),openapi.Parameter('page_size', openapi.IN_QUERY, description="page size", type=openapi.TYPE_INTEGER)])
     def get(self, request):
         q = self.request.query_params.get('q')
         all = []
