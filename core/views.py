@@ -156,15 +156,15 @@ class SearchView(views.APIView):
         all = []
         paginator = CustomPagination()
         for new in News.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)):
-            all.append({'img': new.img.url, 'title': new.title, 'text': new.text, 'date': new.date, 'type': "news"})
+            all.append({'id': new.id,'img': new.img.url, 'title': new.title, 'text': new.text, 'date': new.date, 'type': "news"})
         for ads in Ads.objects.filter(Q(title__icontains=q) | Q(text__icontains=q)):
-            all.append({'img': ads.img.url, 'title': ads.title, 'text': ads.text, 'type': "ads"})
+            all.append({'id': ads.id,'img': ads.img.url, 'title': ads.title, 'text': ads.text, 'type': "ads"})
         for info in Information.objects.filter(Q(text__icontains=q)):
-            all.append({'img': info.img.url, 'title': info.title,'sub_title': info.sub_title, 'text': info.text,'bottom_title': info.bottom_title, 'bottom_text': info.bottom_text,'img_1': info.img_1.url,'img_2': info.img_2.url,'img_3': info.img_3.url, 'type': "info"})
+            all.append({'id': info.id, 'img': info.img.url, 'title': info.title,'sub_title': info.sub_title, 'text': info.text,'bottom_title': info.bottom_title, 'bottom_text': info.bottom_text,'img_1': info.img_1.url,'img_2': info.img_2.url,'img_3': info.img_3.url, 'type': "info"})
         for resolve in Resolve.objects.filter(Q(title__icontains=q)):
-            all.append({'title': resolve.title, 'file': resolve.file.url, 'type': "resolve"})
+            all.append({'id': resolve.id,'title': resolve.title, 'file': resolve.file.url, 'type': "resolve"})
         for gallery in Gallery.objects.filter(Q(description__icontains=q)):
-            all.append({'photo': gallery.photo.url, 'description': gallery.description, 'type': "gallery"})
+            all.append({'id': gallery.id,'photo': gallery.photo.url, 'description': gallery.description, 'type': "gallery"})
         return Response({'count': len(all), 'result': paginator.paginate_queryset(all, request)})
 
     
