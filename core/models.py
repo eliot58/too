@@ -87,11 +87,6 @@ class Address(models.Model):
     photo = models.FileField(upload_to='address', verbose_name='Фото')
     description = models.TextField(verbose_name='Описание')
 
-    def save(self, *args, **kwargs):
-        if len(Address.objects.all()) != 0:
-            return
-        return super().save(*args, **kwargs)
-
     class Meta:
         verbose_name = 'Дарек'
         verbose_name_plural = 'Дарек'
