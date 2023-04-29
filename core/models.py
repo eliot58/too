@@ -67,8 +67,8 @@ class News(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Жаңылык'
-        verbose_name_plural = 'Жаңылыктар'
+        verbose_name = 'Пресса'
+        verbose_name_plural = 'Пресса'
 
 class Comment(models.Model):
     post = models.ForeignKey(News, on_delete=models.CASCADE, verbose_name='Новость')
@@ -92,7 +92,6 @@ class Address(models.Model):
         verbose_name_plural = 'Дарек'
 
 
-
 # class Agriculture(models.Model):
 #     description = models.TextField(verbose_name='Описание')
 
@@ -105,6 +104,7 @@ class Address(models.Model):
 # class AgriCulturePhoto(models.Model):
 #     culture = models.ForeignKey(Agriculture, on_delete=models.CASCADE)
 #     file = models.FileField(upload_to="culture")
+
 
 
 class Culture(models.Model):

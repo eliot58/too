@@ -122,7 +122,7 @@ class NewsView(generics.ListAPIView):
     def get_queryset(self, *args, **kwargs):
         id = self.request.query_params.get('id')
         if id is not None:
-            data = News.objects.filter(id=id)
+            data = News.objects.filter(id=id).order_by("id")
         else:
             data = News.objects.all()
         return data
